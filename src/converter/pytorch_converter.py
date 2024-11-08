@@ -297,6 +297,10 @@ class PyTorchConverter:
         if json_node.parent in protobuf_node_map:
             protobuf_node.ctrl_deps.append(json_node.parent)
         protobuf_node.duration_micros = int(json_node.exclusive_dur)
+        if json_node.ts is not None:
+            protobuf_node.start_time_micros = int(json_node.ts)
+        else:
+            protobuf_node.start_time_micros = 0
 
         # Handle nodes covering more than 90% of the runtime
         if "Optimizer.step" in json_node.name:
